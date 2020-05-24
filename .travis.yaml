@@ -11,14 +11,14 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud auth activate-service-account --key-file service-account.json
-  - gcloud config set project erudite-coast-277917
+  - gcloud config set project multi-k8s-278217
   - gcloud config set compute/zone us-central1-c
   - gcloud container clusters get-credentials multi-cluster	
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t ashwinikumarmishra/react-test -f ./client/Dockerfile.dev ./client
 
   script:
-  - docker run -e CI=true ashwinikumarmishra/react-test npm npm test
+  - docker run ashwinikumarmishra/react-test npm test -- --coverage
 
   deploy:
     provider: script
